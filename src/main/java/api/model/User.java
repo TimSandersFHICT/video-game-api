@@ -35,23 +35,18 @@ public class User {
     @Column(name = "[SignedIn]")
     private Date signIn;
 
-    @JoinTable(name = "[Favorites]",
-            joinColumns = @JoinColumn(name = "[UserID]"),
-            inverseJoinColumns = @JoinColumn(name = "[GamesID]")
-    )
-    private List<Game> games;
+
 
     public User() {
     }
 
-    public User(List<Game> games, String name, String email, String password, String token, Date createdAt, Date signIn) {
+    public User(String name, String email, String password, String token, Date createdAt, Date signIn) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.token = token;
         this.createdAt = createdAt;
         this.signIn = signIn;
-        this.games = games;
     }
 
     public Long getId() {

@@ -1,7 +1,9 @@
 package api.services;
 
+import api.exceptions.DatabaseException;
 import api.model.Game;
 import api.repositories.GameRepository;
+import api.responsebodies.GameResponseBody;
 import api.services.interfaces.IGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +18,14 @@ public class GameService implements IGameService {
     private GameRepository gameRepository;
 
     @Override
-    public List<Game> getGames() {
-        List<Game> games = new ArrayList<>();
+    public List<GameResponseBody> getGames() throws DatabaseException {
+        List<GameResponseBody> games = new ArrayList<>();
         try {
-            gameRepository.findAll().forEach(r -> games.add(r));
+            gameRepository.findAll().forEach(s -> games.add(
+                    new GameResponseBody(s.getId(), s.getTitle(), s.getSummary(), s.getPrice(), null, s.getRating(), s.getImageLink(), s.getDeveloper(), s.getGenre())
+            ));
         } catch (Exception e) {
-            return null;
+            throw new DatabaseException("Something went wrong while accessing the data");
         }
         return games;
     }

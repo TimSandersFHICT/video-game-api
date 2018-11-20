@@ -16,6 +16,7 @@ public class Game {
     @Column(name = "[ID]")
     private Long id;
 
+
     @Column(name = "[Title]")
     private String title;
 
