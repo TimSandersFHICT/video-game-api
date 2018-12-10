@@ -25,7 +25,7 @@ public class GameService implements IGameService {
                     new GameResponseBody(s.getId(), s.getTitle(), s.getSummary(), s.getPrice(), null, s.getRating(), s.getImageLink(), s.getDeveloper(), s.getGenre())
             ));
         } catch (Exception e) {
-            throw new DatabaseException(e.getStackTrace().toString());
+            throw new DatabaseException(e.getMessage());
         }
         return games;
     }
