@@ -5,6 +5,7 @@ import api.exceptions.EmptyRequestBodyException;
 import api.model.Developer;
 import api.repositories.DeveloperRepository;
 import api.requestbodies.DeveloperRequestBody;
+import api.responsebodies.DeveloperResponseBody;
 import api.services.interfaces.IDeveloperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,14 @@ public class DeveloperService implements IDeveloperService {
     private DeveloperRepository developerRepository;
 
     @Override
-    public List<Developer> getDevelopers() {
-        List<Developer> developers = new ArrayList<>();
+    public List<DeveloperResponseBody> getDevelopers() throws DatabaseException {
+        List<DeveloperResponseBody> developers = new ArrayList<>();
         try {
-            developerRepository.findAll().forEach(r -> developers.add(r));
+            developerRepository.findAll().forEach(s -> developers.add(
+                    new DeveloperResponseBody(s.getId(), s.getName(), s.getAddress(), s.getNumEmployees(), s.getDateFounded())
+            ));
         } catch (Exception e) {
-            return null;
+            throw new DatabaseException(e.getMessage());
         }
         return developers;
     }

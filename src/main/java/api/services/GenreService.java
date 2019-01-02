@@ -6,6 +6,7 @@ import api.model.Developer;
 import api.model.Genre;
 import api.repositories.GenreRepository;
 import api.requestbodies.GenreRequestBody;
+import api.responsebodies.GenreResponseBody;
 import api.services.interfaces.IGenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,14 @@ public class GenreService implements IGenreService {
     private GenreRepository genreRepository;
 
     @Override
-    public List<Genre> getGenres() {
-        List<Genre> genres = new ArrayList<>();
+    public List<GenreResponseBody> getGenres() throws DatabaseException {
+        List<GenreResponseBody> genres = new ArrayList<>();
         try {
-            genreRepository.findAll().forEach(r -> genres.add(r));
+            genreRepository.findAll().forEach(s -> genres.add(
+                    new GenreResponseBody(s.getId(), s.getName())
+            ));
         } catch (Exception e) {
-            return null;
+            throw new DatabaseException(e.getMessage());
         }
         return genres;
     }
