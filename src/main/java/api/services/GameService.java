@@ -41,7 +41,7 @@ public class GameService implements IGameService {
         Game game;
         try {
             game = gameRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("There is no student house with such ID"));
+                    .orElseThrow(() -> new ResourceNotFoundException("There is no game with such ID"));
         } catch (Exception e) {
             throw new DatabaseException("Something went wrong while accessing the data");
         }
